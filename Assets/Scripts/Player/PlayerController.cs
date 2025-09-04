@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public Camera playerCamera;
 
     GameManager gameManager;
+    PlayerAbility playerAbility;
     Rigidbody rb;
     Vector2 moveInput;
     Vector2 lookInput;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.Instance;
+        playerAbility = GetComponent<PlayerAbility>();
     }
 
     void OnMove(InputValue value)
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (gameManager.isRestarting || gameManager.isClearing) return;
+        if (playerAbility.isWallClimbing) return;
         ProcessMove();
     }
 

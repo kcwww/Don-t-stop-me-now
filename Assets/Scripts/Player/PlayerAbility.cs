@@ -10,11 +10,20 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] float jumpForce = 20.0f;
     [SerializeField] float flashDistance = 5.0f;
 
+    
+    [SerializeField] float wallJumpVerticalForce = 20.0f;
+
 
     MeshRenderer playerMaterial;
     Rigidbody rb;
     GameManager gameManager;
     ItemType currentAbility = ItemType.Default;
+
+    public bool isWallClimbing = false;
+    float wallClimbDuration = 2.0f;
+    Coroutine wallClimbCoroutine;
+
+
 
 
 
@@ -43,16 +52,73 @@ public class PlayerAbility : MonoBehaviour
             case ItemType.Flash:
                 OnFlash();
                 break;
+            case ItemType.WallClimbing:
+                OnClimbing();
+                break;
             default:
                 break;
         }
     }
+
+
 
     void SetDefaultAbility()
     {
         currentAbility = ItemType.Default;
         playerMaterial.material = abilityMaterials[(int)ItemType.Default];
     }
+
+    IEnumerator WallClimbTimer()
+    {
+        yield return new WaitForSeconds(wallClimbDuration);
+
+        if (!isWallClimbing) yield break;
+
+        isWallClimbing = false;
+        rb.useGravity = true;
+        SetDefaultAbility();
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+
+        if (collision.gameObject.CompareTag("Wall") && currentAbility == ItemType.WallClimbing)
+        {
+
+            // 벽 타기 시작
+            isWallClimbing = true;
+
+
+            rb.linearVelocity = Vector3.zero;
+            rb.useGravity = false;
+            
+            if (wallClimbCoroutine != null)
+            {
+                StopCoroutine(wallClimbCoroutine);
+            }
+            wallClimbCoroutine = StartCoroutine(WallClimbTimer());
+        }
+    }
+
+    void OnClimbing()
+    {
+        if (!isWallClimbing) return;
+        // 벽 타기 중일 때 반대 방향으로 점프
+
+        isWallClimbing = false;
+        rb.useGravity = true;
+
+        
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(Vector3.up * wallJumpVerticalForce, ForceMode.Impulse);
+
+
+
+        //playerEffect.TriggerParticle(EffectType.WallClimbing);
+
+        SetDefaultAbility();
+    }
+
 
     void OnJump()
     {
@@ -108,6 +174,10 @@ public class PlayerAbility : MonoBehaviour
             case ItemType.Flash:
                 currentAbility = ItemType.Flash;
                 playerMaterial.material = abilityMaterials[(int)ItemType.Flash];
+                break;
+            case ItemType.WallClimbing:
+                currentAbility = ItemType.WallClimbing;
+                playerMaterial.material = abilityMaterials[(int)ItemType.WallClimbing];
                 break;
             default:
                 playerMaterial.material = abilityMaterials[(int)ItemType.Default];

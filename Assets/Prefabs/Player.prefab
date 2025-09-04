@@ -402,6 +402,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 123c0365fa98d134293d835a81c0e1fd, type: 2}
   jumpForce: 20
   flashDistance: 5
+  wallJumpHorizontalForce: 10
+  wallJumpVerticalForce: 20
+  isWallClimbing: 0
 --- !u!114 &5120960257081410381
 MonoBehaviour:
   m_ObjectHideFlags: 0
