@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 5120960257081410381}
   - component: {fileID: 6129457788529943861}
   - component: {fileID: 3474966808369043931}
+  - component: {fileID: 5875150079617880836}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -545,6 +546,27 @@ MonoBehaviour:
   implosionParticle: {fileID: 4495923284303535171}
   NextStageParticle: {fileID: 8014050805161218728}
   ClearParticle: {fileID: 5608287407155548089}
+--- !u!65 &5875150079617880836
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7055298184620967402}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 0.2, z: 0.1}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1001 &552576282517595273
 PrefabInstance:
   m_ObjectHideFlags: 0
