@@ -701,15 +701,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1481465025086392595, guid: 83acaaf7614a24e4ab2c278cec736126, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 15.410528
       objectReference: {fileID: 0}
     - target: {fileID: 1481465025086392595, guid: 83acaaf7614a24e4ab2c278cec736126, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 19.82621
       objectReference: {fileID: 0}
     - target: {fileID: 1481465025086392595, guid: 83acaaf7614a24e4ab2c278cec736126, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 35.20021
       objectReference: {fileID: 0}
     - target: {fileID: 1481465025086392595, guid: 83acaaf7614a24e4ab2c278cec736126, type: 3}
       propertyPath: m_LocalRotation.w
@@ -793,8 +793,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1666868, y: 1.4729376, z: 0.33999634}
-  m_Center: {x: 0.055241823, y: 0.23646879, z: -0.20971489}
+  m_Size: {x: 1.1666868, y: 1.4729376, z: 1.2398186}
+  m_Center: {x: 0.055241823, y: 0.23646879, z: -0.17594147}
 --- !u!4 &2781426199229534740 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1481465025086392595, guid: 83acaaf7614a24e4ab2c278cec736126, type: 3}
