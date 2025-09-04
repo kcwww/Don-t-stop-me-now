@@ -7,7 +7,10 @@ public enum ItemType
     DoubleJump,
     Dash,
     Flash,
-    WallClimbing
+    WallClimbing,
+    Shield,
+    Impulse,
+    Stone,
 }
 
 public class Item : MonoBehaviour

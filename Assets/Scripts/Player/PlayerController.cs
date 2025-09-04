@@ -112,10 +112,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("ChangeToGlass"))
-        {
-            GameManager.Instance.SpawnPlayer(); // 리스폰 호출
-        }
+        
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Clear"))
         {
@@ -130,6 +127,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Item"))
         {
             GameManager.Instance.CollectStar(other.gameObject);
+        } else if (other.gameObject.CompareTag("ChangeToGlass"))
+        {
+            if (playerAbility.isShielding) return;
+            GameManager.Instance.SpawnPlayer(); // 리스폰 호출
         }
 
 

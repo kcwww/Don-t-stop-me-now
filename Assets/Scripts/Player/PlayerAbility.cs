@@ -7,11 +7,12 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] PlayerEffect playerEffect;
     [SerializeField] PlayerController PlayerController;
     [SerializeField] Material[] abilityMaterials;
+    [SerializeField] GameObject shieldObject;
+
     [SerializeField] float jumpForce = 20.0f;
     [SerializeField] float flashDistance = 5.0f;
-
-    
     [SerializeField] float wallJumpVerticalForce = 20.0f;
+    [SerializeField] float shieldDuration = 3.0f;
 
 
     MeshRenderer playerMaterial;
@@ -20,6 +21,7 @@ public class PlayerAbility : MonoBehaviour
     ItemType currentAbility = ItemType.Default;
 
     public bool isWallClimbing = false;
+    public bool isShielding = false;
     float wallClimbDuration = 2.0f;
     Coroutine wallClimbCoroutine;
 
@@ -54,6 +56,13 @@ public class PlayerAbility : MonoBehaviour
                 break;
             case ItemType.WallClimbing:
                 OnClimbing();
+                break;
+            case ItemType.Shield:
+                OnShield();
+                break;
+            case ItemType.Impulse:
+                break;
+            case ItemType.Stone:
                 break;
             default:
                 break;
@@ -91,7 +100,7 @@ public class PlayerAbility : MonoBehaviour
 
             rb.linearVelocity = Vector3.zero;
             rb.useGravity = false;
-            
+
             if (wallClimbCoroutine != null)
             {
                 StopCoroutine(wallClimbCoroutine);
@@ -108,7 +117,7 @@ public class PlayerAbility : MonoBehaviour
         isWallClimbing = false;
         rb.useGravity = true;
 
-        
+
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(Vector3.up * wallJumpVerticalForce, ForceMode.Impulse);
 
@@ -179,6 +188,14 @@ public class PlayerAbility : MonoBehaviour
                 currentAbility = ItemType.WallClimbing;
                 playerMaterial.material = abilityMaterials[(int)ItemType.WallClimbing];
                 break;
+            case ItemType.Shield:
+                currentAbility = ItemType.Shield;
+                playerMaterial.material = abilityMaterials[(int)ItemType.Shield];
+                break;
+            case ItemType.Impulse:
+                break;
+            case ItemType.Stone:
+                break;
             default:
                 playerMaterial.material = abilityMaterials[(int)ItemType.Default];
                 break;
@@ -186,4 +203,40 @@ public class PlayerAbility : MonoBehaviour
     }
 
 
+    IEnumerator ShieldOff()
+    {
+        Renderer shieldRenderer = shieldObject.GetComponent<Renderer>();
+        Material mat = shieldRenderer.material;
+
+        float initialMetallic = mat.GetFloat("_Metallic");
+        float initialSmoothness = mat.GetFloat("_Smoothness");
+
+        float elapsedTime = 0f;
+        while (elapsedTime < shieldDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / shieldDuration;
+            mat.SetFloat("_Metallic", Mathf.Lerp(initialMetallic, 0f, t));
+            mat.SetFloat("_Smoothness", Mathf.Lerp(initialSmoothness, 0f, t));
+            yield return null;
+        }
+
+
+        
+        isShielding = false;
+        shieldObject.SetActive(false);
+        mat.SetFloat("_Metallic", initialMetallic);
+        mat.SetFloat("_Glossiness", initialSmoothness);
+    }
+
+    void OnShield()
+    {
+        isShielding = true;
+        shieldObject.SetActive(true);
+        SetDefaultAbility();
+        StartCoroutine(ShieldOff());
+    }
+
 }
+
+
