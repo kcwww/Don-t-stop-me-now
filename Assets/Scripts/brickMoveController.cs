@@ -24,9 +24,18 @@ public class brickMoveController : MonoBehaviour
     /// <summary>
     /// 플레이어가 트리거에 닿았을 때 호출
     /// </summary>
-    void OnTriggerEnter(Collider other)
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Player")
+    //    {
+    //        // 플레이어와 충돌 시 일정 시간 후 앞으로 이동
+    //        StartCoroutine(MoveBrick());
+    //    }
+    //}
+
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             // 플레이어와 충돌 시 일정 시간 후 앞으로 이동
             StartCoroutine(MoveBrick());

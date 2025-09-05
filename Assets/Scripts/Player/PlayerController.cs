@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class PlayerController : MonoBehaviour
@@ -10,6 +11,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float minPitch = -30f;
     [SerializeField] float maxPitch = 60f;
     [SerializeField] float cameraDistance = 10f;
+
+    [SerializeField] RawImage RawImage;
+    [SerializeField] RenderTexture TopView;
+    [SerializeField] RenderTexture SideView;
 
     public Camera playerCamera;
 
@@ -136,5 +141,15 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
+    void OnToggleCamera()
+    {
+        if (RawImage.texture == TopView)
+        {
+            RawImage.texture = SideView;
+        }
+        else
+        {
+            RawImage.texture = TopView;
+        }
+    }
 }

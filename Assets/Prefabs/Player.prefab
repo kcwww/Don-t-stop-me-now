@@ -577,6 +577,9 @@ MonoBehaviour:
   minPitch: -30
   maxPitch: 60
   cameraDistance: 8
+  RawImage: {fileID: 0}
+  TopView: {fileID: 8400000, guid: 29fe8c6247ca38b40815e3f93f9fb202, type: 2}
+  SideView: {fileID: 8400000, guid: 2dec4b959b251384aaf2a0c32423fd54, type: 2}
   playerCamera: {fileID: 2448682042958351134}
 --- !u!114 &6129457788529943861
 MonoBehaviour:
