@@ -1,12 +1,16 @@
+
 using UnityEngine;
 using System.Collections;
 
-public class ToggleBox : MonoBehaviour
+public class TimeToggle : MonoBehaviour
 {
     [SerializeField] private float onTime = 1f;      // 켜져 있는 시간
     [SerializeField] private float offTime = 2f;     // 꺼져 있는 시간
     [SerializeField] private float startDelay = 0f;  // 시작 지연 (박스마다 다르게 설정)
     [SerializeField] private float hiddenAlpha = 0.1f; // 투명해질 때 알파 값 (0=완전투명, 1=불투명)
+
+    public bool isClockActive = true;
+
 
     private Renderer[] renderers;
     private Collider col;
@@ -32,20 +36,31 @@ public class ToggleBox : MonoBehaviour
 
     IEnumerator ToggleRoutine()
     {
-        // 지정한 딜레이만큼 기다렸다가 시작
         yield return new WaitForSeconds(startDelay);
 
         while (true)
         {
-            // 켜기 (알파 1, 콜라이더 켜기)
+            // 켜기
             SetVisible(true);
-            yield return new WaitForSeconds(onTime);
+            float timer = 0f;
+            while (timer < onTime)
+            {
+                if (isClockActive) timer += Time.deltaTime; // isClockActive가 true일 때만 시간 흐름
+                yield return null;
+            }
 
-            // 끄기 (알파 낮추고, 콜라이더 끄기)
+            // 끄기
             SetVisible(false);
-            yield return new WaitForSeconds(offTime);
+            timer = 0f;
+            while (timer < offTime)
+            {
+                if (isClockActive) timer += Time.deltaTime;
+                yield return null;
+            }
         }
     }
+
+
 
     void SetVisible(bool visible)
     {
