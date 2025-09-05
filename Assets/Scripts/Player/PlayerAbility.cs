@@ -143,6 +143,32 @@ public class PlayerAbility : MonoBehaviour
         SetDefaultAbility();
     }
 
+    [SerializeField] private float wallCheckRadius = 0.5f;   // 벽 탐지 반지름
+    [SerializeField] private float wallCheckDistance = 0.6f; // 플레이어 앞 거리
+    [SerializeField] private LayerMask wallLayer;            // 벽 Layer
+
+    private void FixedUpdate()
+    {
+        if (isWallClimbing)
+        {
+            // 플레이어 앞쪽 위치 계산
+            Vector3 checkPos = transform.position + transform.forward * wallCheckDistance;
+
+            // OverlapSphere로 벽 감지
+            Collider[] hits = Physics.OverlapSphere(checkPos, wallCheckRadius, wallLayer);
+
+            if (hits.Length == 0)
+            {
+                // 벽이 없으면 강제로 벽 타기 종료
+                isWallClimbing = false;
+                rb.useGravity = true;
+                rb.linearVelocity = Vector3.zero;
+
+                SetDefaultAbility();
+            }
+        }
+    }
+
 
 
     // 더블 점프 기능

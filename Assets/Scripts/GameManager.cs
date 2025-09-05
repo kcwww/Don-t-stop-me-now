@@ -311,4 +311,9 @@ public class GameManager : MonoBehaviour
 #endif
         }
     }
+
+    void OnQuit()
+    {
+        Application.Quit();
+    }
 }

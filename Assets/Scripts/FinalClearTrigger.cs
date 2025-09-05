@@ -6,6 +6,7 @@ public class FinalClearTrigger : MonoBehaviour
     [SerializeField] private string clearLayerName = "Clear";
     [SerializeField] private string targetSceneName = "Stage3";
     [SerializeField] private string playerTag = "Player";
+    [SerializeField] GameObject ClearUI;
 
     private int clearLayer;
 
@@ -22,6 +23,19 @@ public class FinalClearTrigger : MonoBehaviour
             && SceneManager.GetActiveScene().name == targetSceneName)
         {
             GameManager.Instance?.FinalClear();
+            if (ClearUI != null)
+                ClearUI.SetActive(true);
         }
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("Start");
+    }
+
+    public void QuitGame()
+    {
+        // quit the application
+        Application.Quit();
     }
 }
