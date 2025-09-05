@@ -10,10 +10,13 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] GameObject shieldObject;
 
     [SerializeField] float jumpForce = 20.0f;
+    [SerializeField] float dashForce = 20.0f;
     [SerializeField] float flashDistance = 5.0f;
     [SerializeField] float wallJumpVerticalForce = 20.0f;
     [SerializeField] float shieldDuration = 3.0f;
-
+    [SerializeField] float groundImpactForce = 30.0f;
+    [SerializeField] float groundImpactRadius = 5.0f;
+    [SerializeField] float groundImpactExplosionForce = 100.0f;
 
     MeshRenderer playerMaterial;
     Rigidbody rb;
@@ -22,6 +25,8 @@ public class PlayerAbility : MonoBehaviour
 
     public bool isWallClimbing = false;
     public bool isShielding = false;
+    public bool isImpacting = false;
+
     float wallClimbDuration = 2.0f;
     Coroutine wallClimbCoroutine;
 
@@ -60,7 +65,8 @@ public class PlayerAbility : MonoBehaviour
             case ItemType.Shield:
                 OnShield();
                 break;
-            case ItemType.Impulse:
+            case ItemType.GroundImpact:
+                OnGroundImpact();
                 break;
             case ItemType.Stone:
                 break;
@@ -76,6 +82,9 @@ public class PlayerAbility : MonoBehaviour
         currentAbility = ItemType.Default;
         playerMaterial.material = abilityMaterials[(int)ItemType.Default];
     }
+
+
+    // 벽 타기 기능
 
     IEnumerator WallClimbTimer()
     {
@@ -129,6 +138,9 @@ public class PlayerAbility : MonoBehaviour
     }
 
 
+
+    // 더블 점프 기능
+
     void OnJump()
     {
         // 현재 가속도 초기화 후 impulse 힘 적용
@@ -140,6 +152,9 @@ public class PlayerAbility : MonoBehaviour
 
     }
 
+
+    // 대시 기능
+
     void OnDash()
     {
         Vector3 dashDir = PlayerController.GetMoveDirection();
@@ -148,11 +163,12 @@ public class PlayerAbility : MonoBehaviour
             dashDir = transform.forward;
         }
         // 대시 속도 직접 설정
-        rb.linearVelocity = dashDir * jumpForce;
+        rb.linearVelocity = dashDir * dashForce;
         playerEffect.TriggerParticle(EffectType.Dash);
         SetDefaultAbility();
     }
 
+    // 점멸 기능
     void OnFlash()
     {
         Vector3 flashDir = PlayerController.GetMoveDirection();
@@ -165,6 +181,82 @@ public class PlayerAbility : MonoBehaviour
         transform.position += flashDir * flashDistance;
         playerEffect.TriggerParticle(EffectType.Flash);
         SetDefaultAbility();
+    }
+
+    // 쉴드 기능
+    IEnumerator ShieldOff()
+    {
+        Renderer shieldRenderer = shieldObject.GetComponent<Renderer>();
+        Material mat = shieldRenderer.material;
+
+        float initialMetallic = mat.GetFloat("_Metallic");
+        float initialSmoothness = mat.GetFloat("_Smoothness");
+
+        float elapsedTime = 0f;
+        while (elapsedTime < shieldDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / shieldDuration;
+            mat.SetFloat("_Metallic", Mathf.Lerp(initialMetallic, 0f, t));
+            mat.SetFloat("_Smoothness", Mathf.Lerp(initialSmoothness, 0f, t));
+            yield return null;
+        }
+
+
+
+        isShielding = false;
+        shieldObject.SetActive(false);
+        mat.SetFloat("_Metallic", initialMetallic);
+        mat.SetFloat("_Glossiness", initialSmoothness);
+    }
+
+    void OnShield()
+    {
+        isShielding = true;
+        shieldObject.SetActive(true);
+        SetDefaultAbility();
+        StartCoroutine(ShieldOff());
+    }
+
+    // 폭발 기능
+
+    void OnGroundImpact()
+    {
+        // 땅을 강하게 내려찍는 기능
+        // 현재 속도 초기화 후 아래 방향으로 Impulse 힘 적용
+        isImpacting = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(Vector3.down * groundImpactForce, ForceMode.Impulse);
+        // 바운시 코드에서 변수 확인 후 충격파 이펙트 발생 및 코드 실행
+        SetDefaultAbility();
+    }
+
+    public void ExplodeImpact()
+    {
+        
+        isImpacting = false;
+        //playerEffect.TriggerParticle(EffectType.GroundImpact);
+        
+
+
+
+        Collider[] hits = Physics.OverlapSphere(transform.position, groundImpactRadius);
+
+
+        // 부술 수 있는 오브젝트들에 힘 적용
+        // 힘 적용 후 코루틴을 실행하여 저장한 오브젝트들 일정 시간 후 삭제
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Breakable"))
+            {
+                ExplodePlatform b = hit.GetComponent<ExplodePlatform>();
+                if (b != null)
+                {
+                    b.Explode(groundImpactExplosionForce, transform.position, groundImpactRadius);
+                }
+            }
+        }
+
     }
 
 
@@ -192,7 +284,9 @@ public class PlayerAbility : MonoBehaviour
                 currentAbility = ItemType.Shield;
                 playerMaterial.material = abilityMaterials[(int)ItemType.Shield];
                 break;
-            case ItemType.Impulse:
+            case ItemType.GroundImpact:
+                currentAbility = ItemType.GroundImpact;
+                playerMaterial.material = abilityMaterials[(int)ItemType.GroundImpact];
                 break;
             case ItemType.Stone:
                 break;
@@ -203,39 +297,6 @@ public class PlayerAbility : MonoBehaviour
     }
 
 
-    IEnumerator ShieldOff()
-    {
-        Renderer shieldRenderer = shieldObject.GetComponent<Renderer>();
-        Material mat = shieldRenderer.material;
-
-        float initialMetallic = mat.GetFloat("_Metallic");
-        float initialSmoothness = mat.GetFloat("_Smoothness");
-
-        float elapsedTime = 0f;
-        while (elapsedTime < shieldDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / shieldDuration;
-            mat.SetFloat("_Metallic", Mathf.Lerp(initialMetallic, 0f, t));
-            mat.SetFloat("_Smoothness", Mathf.Lerp(initialSmoothness, 0f, t));
-            yield return null;
-        }
-
-
-        
-        isShielding = false;
-        shieldObject.SetActive(false);
-        mat.SetFloat("_Metallic", initialMetallic);
-        mat.SetFloat("_Glossiness", initialSmoothness);
-    }
-
-    void OnShield()
-    {
-        isShielding = true;
-        shieldObject.SetActive(true);
-        SetDefaultAbility();
-        StartCoroutine(ShieldOff());
-    }
 
 }
 

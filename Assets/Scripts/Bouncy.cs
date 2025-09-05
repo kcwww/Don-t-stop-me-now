@@ -10,10 +10,12 @@ public class Bouncy : MonoBehaviour
 
     Rigidbody rb; // 플레이어 Rigidbody
     GameManager gameManager;
+    PlayerAbility playerAbility;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerAbility = GetComponent<PlayerAbility>();
         gameManager = GameManager.Instance;
     }
 
@@ -21,6 +23,15 @@ public class Bouncy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Platform") && !(gameManager.isRestarting || gameManager.isClearing))
         {
+            if (playerAbility.isImpacting) playerAbility.ExplodeImpact();
+
+            rb.linearVelocity = Vector3.zero; // 현재 속도 초기화
+            rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+            playerEffect.TriggerParticle(EffectType.Jump);
+        } else if (other.gameObject.CompareTag("Breakable") && !(gameManager.isRestarting || gameManager.isClearing))
+        {
+            if (playerAbility.isImpacting) playerAbility.ExplodeImpact();
+
             rb.linearVelocity = Vector3.zero; // 현재 속도 초기화
             rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
             playerEffect.TriggerParticle(EffectType.Jump);

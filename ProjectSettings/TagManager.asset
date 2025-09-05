@@ -8,6 +8,7 @@ TagManager:
   - ChangeToGlass
   - Item
   - Wall
+  - Breakable
   layers:
   - Default
   - TransparentFX

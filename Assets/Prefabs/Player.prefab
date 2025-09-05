@@ -490,11 +490,16 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 123c0365fa98d134293d835a81c0e1fd, type: 2}
   shieldObject: {fileID: 5722122009854585075}
   jumpForce: 20
+  dashForce: 20
   flashDistance: 5
   wallJumpVerticalForce: 20
   shieldDuration: 3
+  groundImpactForce: 30
+  groundImpactRadius: 5
+  groundImpactExplosionForce: 100
   isWallClimbing: 0
   isShielding: 0
+  isImpacting: 0
 --- !u!114 &5120960257081410381
 MonoBehaviour:
   m_ObjectHideFlags: 0

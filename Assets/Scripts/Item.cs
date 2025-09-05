@@ -9,7 +9,7 @@ public enum ItemType
     Flash,
     WallClimbing,
     Shield,
-    Impulse,
+    GroundImpact,
     Stone,
 }
 
