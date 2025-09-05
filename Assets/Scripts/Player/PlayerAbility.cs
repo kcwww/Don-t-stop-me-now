@@ -30,6 +30,7 @@ public class PlayerAbility : MonoBehaviour
     public bool isIron = false;
 
     float wallClimbDuration = 2.0f;
+    float interval = 1f;
 
     Coroutine wallClimbCoroutine;
     Coroutine shieldCoroutine;
@@ -280,13 +281,52 @@ public class PlayerAbility : MonoBehaviour
 
     IEnumerator IronOff()
     {
-        yield return new WaitForSeconds(ironDuration);
+        float elapsed = 0f;
+        float currentInterval = interval;
+        bool goingWhite = true;
+
+        Color startColor = Color.black;
+        Color endColor = Color.white;
+
+        // 반복 횟수 계산 (총 duration을 기준으로)
+        int totalFlashes = Mathf.CeilToInt(ironDuration / interval);
+        int flashCount = 0;
+
+        while (elapsed < ironDuration)
+        {
+            float t = 0f;
+
+            // 현재 색상 전환
+            while (t < currentInterval)
+            {
+                t += Time.deltaTime;
+                float lerp = Mathf.Clamp01(t / currentInterval);
+
+                if (goingWhite)
+                    playerMaterial.material.color = Color.Lerp(startColor, endColor, lerp);
+                else
+                    playerMaterial.material.color = Color.Lerp(endColor, startColor, lerp);
+
+                yield return null;
+            }
+
+            goingWhite = !goingWhite;
+            elapsed += currentInterval;
+            flashCount++;
+
+            // **선형적으로 interval 줄이기**
+            currentInterval = Mathf.Lerp(interval, 0.05f, (float)flashCount / totalFlashes);
+        }
+
+        // 최종 처리
         SetDefaultAbility();
         isIron = false;
-        rb.linearVelocity = Vector3.zero; // 현재 속도 초기화
+        rb.linearVelocity = Vector3.zero;
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         playerEffect.TriggerParticle(EffectType.Jump);
     }
+
+
 
 
     public void GiveAbility(ItemType itemType)
