@@ -17,6 +17,7 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] float groundImpactForce = 30.0f;
     [SerializeField] float groundImpactRadius = 4.0f;
     [SerializeField] float groundImpactExplosionForce = 100.0f;
+    [SerializeField] float ironDuration = 3.0f;
 
     MeshRenderer playerMaterial;
     Rigidbody rb;
@@ -26,9 +27,13 @@ public class PlayerAbility : MonoBehaviour
     public bool isWallClimbing = false;
     public bool isShielding = false;
     public bool isImpacting = false;
+    public bool isIron = false;
 
     float wallClimbDuration = 2.0f;
+
     Coroutine wallClimbCoroutine;
+    Coroutine shieldCoroutine;
+    Coroutine ironCoroutine;
 
 
 
@@ -68,7 +73,7 @@ public class PlayerAbility : MonoBehaviour
             case ItemType.GroundImpact:
                 OnGroundImpact();
                 break;
-            case ItemType.Stone:
+            case ItemType.Iron:
                 break;
             default:
                 break;
@@ -215,7 +220,11 @@ public class PlayerAbility : MonoBehaviour
         isShielding = true;
         shieldObject.SetActive(true);
         SetDefaultAbility();
-        StartCoroutine(ShieldOff());
+        if (shieldCoroutine != null)
+        {
+            StopCoroutine(shieldCoroutine);
+        }
+        shieldCoroutine = StartCoroutine(ShieldOff());
     }
 
     // 폭발 기능
@@ -259,6 +268,26 @@ public class PlayerAbility : MonoBehaviour
 
     }
 
+    void OnIron()
+    {
+        isIron = true;
+        if (ironCoroutine != null)
+        {
+            StopCoroutine(ironCoroutine);
+        }
+        ironCoroutine = StartCoroutine(IronOff());
+    }
+
+    IEnumerator IronOff()
+    {
+        yield return new WaitForSeconds(ironDuration);
+        SetDefaultAbility();
+        isIron = false;
+        rb.linearVelocity = Vector3.zero; // 현재 속도 초기화
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        playerEffect.TriggerParticle(EffectType.Jump);
+    }
+
 
     public void GiveAbility(ItemType itemType)
     {
@@ -288,7 +317,10 @@ public class PlayerAbility : MonoBehaviour
                 currentAbility = ItemType.GroundImpact;
                 playerMaterial.material = abilityMaterials[(int)ItemType.GroundImpact];
                 break;
-            case ItemType.Stone:
+            case ItemType.Iron:
+                currentAbility = ItemType.Iron;
+                OnIron();
+                playerMaterial.material = abilityMaterials[(int)ItemType.Iron];
                 break;
             default:
                 playerMaterial.material = abilityMaterials[(int)ItemType.Default];

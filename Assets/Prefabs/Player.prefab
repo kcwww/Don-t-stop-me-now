@@ -487,7 +487,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 653005456c5c8214db62fd70a89c6eda, type: 2}
   - {fileID: 2100000, guid: 211dbde45acbc1342bd56305320dc0ac, type: 2}
   - {fileID: 2100000, guid: 7e2ea1ed71870d74c9b8c2333c45f93f, type: 2}
-  - {fileID: 2100000, guid: 123c0365fa98d134293d835a81c0e1fd, type: 2}
+  - {fileID: 2100000, guid: a5a4087bf49231b4eb191c5b8165ae26, type: 2}
   shieldObject: {fileID: 5722122009854585075}
   jumpForce: 20
   dashForce: 20
@@ -495,8 +495,8 @@ MonoBehaviour:
   wallJumpVerticalForce: 20
   shieldDuration: 3
   groundImpactForce: 30
-  groundImpactRadius: 5
-  groundImpactExplosionForce: 150
+  groundImpactRadius: 4
+  groundImpactExplosionForce: 100
   isWallClimbing: 0
   isShielding: 0
   isImpacting: 0

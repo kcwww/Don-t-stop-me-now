@@ -10,7 +10,7 @@ public enum ItemType
     WallClimbing,
     Shield,
     GroundImpact,
-    Stone,
+    Iron,
 }
 
 public class Item : MonoBehaviour

@@ -21,14 +21,10 @@ public class Bouncy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Platform") && !(gameManager.isRestarting || gameManager.isClearing))
-        {
-            if (playerAbility.isImpacting) playerAbility.ExplodeImpact();
+        if (gameManager.isRestarting || gameManager.isClearing) return;
+        if (playerAbility.isIron) return;
 
-            rb.linearVelocity = Vector3.zero; // 현재 속도 초기화
-            rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
-            playerEffect.TriggerParticle(EffectType.Jump);
-        } else if (other.gameObject.CompareTag("Breakable") && !(gameManager.isRestarting || gameManager.isClearing))
+        if (other.gameObject.CompareTag("Platform") || other.gameObject.CompareTag("Breakable"))
         {
             if (playerAbility.isImpacting) playerAbility.ExplodeImpact();
 
