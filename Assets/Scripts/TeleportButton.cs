@@ -1,8 +1,8 @@
 using UnityEngine;
 public class TeleportButton : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public Transform targetPosition; // �̵���ų ��ġ (�� ������Ʈ�� ����� �Ҵ�)
+    
+    public Transform targetPosition; 
     void Start()
     {
     }
@@ -12,9 +12,9 @@ public class TeleportButton : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Player �±׸� ���� ������Ʈ��
+        if (other.CompareTag("Player"))
         {
-            other.transform.position = targetPosition.position; // Ư�� ��ġ�� �̵�
+            other.transform.position = targetPosition.position; 
         }
     }
 }

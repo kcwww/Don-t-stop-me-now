@@ -138,7 +138,7 @@ public class PlayerAbility : MonoBehaviour
 
 
 
-        //playerEffect.TriggerParticle(EffectType.WallClimbing);
+        playerEffect.TriggerParticle(EffectType.Jump);
 
         SetDefaultAbility();
     }
@@ -243,10 +243,10 @@ public class PlayerAbility : MonoBehaviour
 
     public void ExplodeImpact()
     {
-        
+
         isImpacting = false;
-        //playerEffect.TriggerParticle(EffectType.GroundImpact);
-        
+        playerEffect.TriggerParticle(EffectType.Explosion);
+
 
 
 

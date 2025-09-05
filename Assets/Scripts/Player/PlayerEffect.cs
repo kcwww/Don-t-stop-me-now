@@ -5,10 +5,11 @@ public enum EffectType
     Jump,
     Dash,
     Flash,
-    Explosion,
+    Dead,
     Implosion,
     NextStage,
-    Clear
+    Clear,
+    Explosion
 }
 
 public class PlayerEffect : MonoBehaviour
@@ -16,12 +17,13 @@ public class PlayerEffect : MonoBehaviour
     [SerializeField] ParticleSystem jumpParticle;
     [SerializeField] ParticleSystem dashParticle;
     [SerializeField] ParticleSystem flashParticle;
-    [SerializeField] ParticleSystem explosionParticle;
+    [SerializeField] ParticleSystem deadParticle;
     [SerializeField] ParticleSystem implosionParticle;
     [SerializeField] ParticleSystem NextStageParticle;
     [SerializeField] ParticleSystem ClearParticle;
+    [SerializeField] ParticleSystem ExplosionParticle;
 
-    
+
 
 
     public void TriggerParticle(EffectType type)
@@ -40,8 +42,8 @@ public class PlayerEffect : MonoBehaviour
                 // 플래시 파티클 효과 실행
                 flashParticle.Play();
                 break;
-            case EffectType.Explosion:
-                explosionParticle.Play();
+            case EffectType.Dead:
+                deadParticle.Play();
                 break;
             case EffectType.Implosion:
                 implosionParticle.Play();
@@ -52,6 +54,10 @@ public class PlayerEffect : MonoBehaviour
             case EffectType.Clear:
                 ClearParticle.Play();
                 break;
+            case EffectType.Explosion:
+                ExplosionParticle.Play();
+                break;
+
             default:
                 break;
         }

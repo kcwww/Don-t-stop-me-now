@@ -1,10 +1,23 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviour
 {
-    public void OnStartButtonClicked()
+    bool isStarted = false;
+
+    private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene("Stage1"); // Stage1 씬으로 이동
+        if (other.CompareTag("Player") && !isStarted)
+        {
+            isStarted = true;
+            StartCoroutine(LoadStageOne());
+        }
+    }
+    
+    IEnumerator LoadStageOne()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Stage1");
     }
 }
