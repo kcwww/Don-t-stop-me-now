@@ -496,7 +496,7 @@ MonoBehaviour:
   shieldDuration: 3
   groundImpactForce: 30
   groundImpactRadius: 5
-  groundImpactExplosionForce: 100
+  groundImpactExplosionForce: 150
   isWallClimbing: 0
   isShielding: 0
   isImpacting: 0

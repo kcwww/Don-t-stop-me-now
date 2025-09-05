@@ -15,7 +15,7 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] float wallJumpVerticalForce = 20.0f;
     [SerializeField] float shieldDuration = 3.0f;
     [SerializeField] float groundImpactForce = 30.0f;
-    [SerializeField] float groundImpactRadius = 5.0f;
+    [SerializeField] float groundImpactRadius = 4.0f;
     [SerializeField] float groundImpactExplosionForce = 100.0f;
 
     MeshRenderer playerMaterial;
@@ -252,7 +252,7 @@ public class PlayerAbility : MonoBehaviour
                 ExplodePlatform b = hit.GetComponent<ExplodePlatform>();
                 if (b != null)
                 {
-                    b.Explode(groundImpactExplosionForce, transform.position, groundImpactRadius);
+                    b.Explode(groundImpactExplosionForce, transform.position, groundImpactRadius * 2);
                 }
             }
         }
