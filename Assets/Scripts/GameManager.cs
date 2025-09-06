@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
         if (playerController != null) playerController.enabled = false;
 
         if (UI.Instance != null)
-            UI.Instance.ShowClearText("Clear!");
+            UI.Instance.ShowClearText("Finish!");
 
         // === 중요: Stage3 최종 클리어 → Start 진입 시 전체 초기화 표시
         resetStarsOnNextStart = true;
@@ -312,8 +312,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnQuit()
-    {
-        Application.Quit();
-    }
+    
 }

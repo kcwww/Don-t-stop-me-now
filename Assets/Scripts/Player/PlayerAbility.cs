@@ -143,7 +143,7 @@ public class PlayerAbility : MonoBehaviour
         SetDefaultAbility();
     }
 
-    [SerializeField] private float wallCheckRadius = 0.5f;   // 벽 탐지 반지름
+    [SerializeField] private float wallCheckRadius = 1f;   // 벽 탐지 반지름
     [SerializeField] private float wallCheckDistance = 0.6f; // 플레이어 앞 거리
     [SerializeField] private LayerMask wallLayer;            // 벽 Layer
 

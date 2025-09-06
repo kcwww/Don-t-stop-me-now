@@ -3,7 +3,8 @@ using UnityEngine;
 enum CameraMode
 {
     TopView,
-    SideView
+    SideView,
+    FinalStage
 }
 
 public class FollowCamera : MonoBehaviour
@@ -30,6 +31,12 @@ public class FollowCamera : MonoBehaviour
         {
             // 사이드뷰 에서는 타겟의 x 및 y 좌표를 따라가고, z 좌표는 고정
             Vector3 newPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
+            transform.position = newPosition;
+        }
+        
+        else if (cameraMode == CameraMode.FinalStage)
+        {
+            Vector3 newPosition = new Vector3(transform.position.x, target.position.y, target.position.z);
             transform.position = newPosition;
         }
     }

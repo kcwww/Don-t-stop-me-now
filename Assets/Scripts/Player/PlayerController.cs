@@ -152,4 +152,12 @@ public class PlayerController : MonoBehaviour
             RawImage.texture = TopView;
         }
     }
+
+    void OnQuit()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }

@@ -37,5 +37,8 @@ public class FinalClearTrigger : MonoBehaviour
     {
         // quit the application
         Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
