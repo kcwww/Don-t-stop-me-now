@@ -1292,6 +1292,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1240418290 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2448682042958351134, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
+  m_PrefabInstance: {fileID: 1974895391}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1265155433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,6 +1754,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLayerName: StartPortal
+--- !u!114 &1760952122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760952105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d7132ce49ef84ea9cf9a4db2eb9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  rotationSpeed: 0.1
+  cameraRotationSpeed: 0.05
+  minPitch: -30
+  maxPitch: 60
+  cameraDistance: 8
+  RawImage: {fileID: 0}
+  TopView: {fileID: 0}
+  SideView: {fileID: 0}
+  isStartStage: 1
+  playerCamera: {fileID: 1240418290}
 --- !u!1 &1772028364 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3448445677255921582, guid: 83604adfff2e5b640b285afcf7851efb, type: 3}
@@ -1992,6 +2020,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5120960257081410381, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
+      propertyPath: isStartStage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120960257081410381, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
       propertyPath: cameraDistance
       value: 8
       objectReference: {fileID: 0}
@@ -2003,10 +2035,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8552951447055000275, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
+      propertyPath: PlayerController
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5120960257081410381, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7055298184620967402, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
+      insertIndex: 9
+      addedObject: {fileID: 1760952122}
     - targetCorrespondingSourceObject: {fileID: 7055298184620967402, guid: 4625c86e8331b044ab0642f13bda1d9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1760952118}

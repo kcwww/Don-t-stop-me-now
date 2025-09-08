@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController1 : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float rotationSpeed = 0.1f;
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] RenderTexture TopView;
     [SerializeField] RenderTexture SideView;
 
-    
+    [SerializeField] bool isStartStage = false;
 
     public Camera playerCamera;
 
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     void OnLook(InputValue value)
     {
-        
+        if (isStartStage) return;
         lookInput = value.Get<Vector2>();
     }
 
